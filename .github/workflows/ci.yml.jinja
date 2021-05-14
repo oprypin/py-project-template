@@ -22,8 +22,7 @@ jobs:
           - python: {{ min_python_version }}
             os: ubuntu-latest
             versions: minimal
-{% raw %}
-    runs-on: ${{matrix.os}}
+{% raw %}    runs-on: ${{matrix.os}}
     steps:
       - name: Download source
         uses: actions/checkout@v2
