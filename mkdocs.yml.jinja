@@ -1,4 +1,7 @@
 site_name: "{{ project_name }}"
+{% if project_description %}
+site_description: "{{ project_description }}"
+{% endif %}
 site_url: "https://{{ repository_name.split("/")[0] }}.github.io/{{ repository_name.split("/")[1] }}"
 repo_url: "https://github.com/{{ repository_name }}"
 edit_uri: blob/master/docs/
