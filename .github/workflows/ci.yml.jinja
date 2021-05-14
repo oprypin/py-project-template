@@ -22,14 +22,15 @@ jobs:
           - python: {{ min_python_version }}
             os: ubuntu-latest
             versions: minimal
-    {% raw %}runs-on: ${{matrix.os}}{% endraw %}
+{% raw %}
+    runs-on: ${{matrix.os}}
     steps:
       - name: Download source
         uses: actions/checkout@v2
       - name: Install Python
         uses: actions/setup-python@v2
         with:
-          {% raw %}python-version: ${{matrix.python}}{% endraw %}
+          python-version: ${{matrix.python}}
       - name: Pin to lowest versions
         if: matrix.versions == 'minimal'
         run: |
@@ -41,7 +42,7 @@ jobs:
       - name: Install packages
         run: |
           python -m pip install -U pip'>=19'; pip install -U wheel
-          {% raw %}pip install -U . $(awk '/^$/ {p = 0}  ! /${{runner.os}}/ { if (p) {print $1} }  /dev-dependencies/ {p = 1}' pyproject.toml){% endraw %}
+          pip install -U . $(awk '/^$/ {p = 0}  ! /${{runner.os}}/ { if (p) {print $1} }  /dev-dependencies/ {p = 1}' pyproject.toml)
       - name: Test
         run: |
           .tools/ci.sh with_groups
@@ -49,3 +50,4 @@ jobs:
         if: matrix.versions == null
         run: |
           git diff --exit-code
+{% endraw %}

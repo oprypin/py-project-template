@@ -9,8 +9,11 @@ with_groups() {
 }
 
 "$@" autoflake -i -r --remove-all-unused-imports --remove-unused-variables {{ python_import_name }}{% if pytest %} tests{% endif %}
+
 "$@" isort -q {{ python_import_name }}{% if pytest %} tests{% endif %}
+
 "$@" black -q {{ python_import_name }}{% if pytest %} tests{% endif %}
+
 {% if pytest %}
 "$@" pytest -q
 {% endif %}
