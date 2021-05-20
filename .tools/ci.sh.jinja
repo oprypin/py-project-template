@@ -8,16 +8,18 @@ with_groups() {
     "$@" && echo "::endgroup::"
 }
 
-"$@" autoflake -i -r --remove-all-unused-imports --remove-unused-variables {{ python_import_name }}{% if pytest %} tests{% endif %}
+src="{{ python_import_name }}"
 
-"$@" isort -q {{ python_import_name }}{% if pytest %} tests{% endif %}
+"$@" autoflake -i -r --remove-all-unused-imports --remove-unused-variables $src{% if pytest %} tests{% endif %}
 
-"$@" black -q {{ python_import_name }}{% if pytest %} tests{% endif %}
+"$@" isort -q $src{% if pytest %} tests{% endif %}
+
+"$@" black -q $src{% if pytest %} tests{% endif %}
 
 {% if pytest %}
 "$@" pytest -q
 {% endif %}
 {% if pytype %}
 python -c 'import sys, os; sys.exit((3,8) <= sys.version_info < (3,10) and os.name == "posix")' ||
-"$@" pytype {{ python_import_name }}
+"$@" pytype $src
 {% endif %}
