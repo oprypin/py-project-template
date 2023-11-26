@@ -8,45 +8,74 @@ defaults:
   run:
     shell: bash
 jobs:
-  build:
+{%- if pytest or script_test %}
+  test:
     strategy:
       fail-fast: false
       matrix:
         include:
-          - python: '^3.9'
-            os: macos-latest
-          - python: 3.8
+          - python: '^3.12'
             os: ubuntu-latest
-          - python: 3.7
+          - python: '3.12'
+            os: macos-latest
+          - python: '3.11'
             os: windows-latest
-          - python: {{ min_python_version }}
+          - python: '3.10'
+            os: ubuntu-latest
+          - python: '3.9'
+            os: macos-latest
+          - python: '3.8'
+            os: windows-latest
+          - python: '3.8'
             os: ubuntu-latest
             versions: minimal
-{% raw %}    runs-on: ${{matrix.os}}
+    runs-on: {{ '${{matrix.os}}' }}
     steps:
       - name: Download source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{matrix.python}}
+          python-version: {{ '${{matrix.python}}' }}
       - name: Pin to lowest versions
         if: matrix.versions == 'minimal'
         run: |
-          sed -i -E 's/"(\^|>=)([0-9])/"==\2/' pyproject.toml
-      - name: Setup virtualenv
-        uses: syphar/restore-virtualenv@d0a933d92488e0505e012c3367e3f987a6276f5a
+          sed -i -E 's/#min //; s/\b >=([0-9])/ ==\1/' pyproject.toml
+      - name: Install Hatch
+        run: |
+          pip install hatch
+      - name: Install dependencies
+        run: |
+          hatch run test:pip freeze
+      - name: Run tests
+        run: |
+          hatch run test:test
+{%- endif %}
+  style:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download source
+        uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v4
         with:
-          requirement_files: pyproject.toml
-      - name: Install packages
+          python-version: '3.12'
+      - name: Install Hatch
         run: |
-          python -m pip install -U pip'>=19'; pip install -U wheel
-          pip install -U . $(awk '/^$/ {p = 0}  ! /${{runner.os}}/ { if (p) {print $1} }  /dev-dependencies/ {p = 1}' pyproject.toml)
-      - name: Test
+          pip install hatch
+      - name: Install dependencies
         run: |
-          .tools/ci.sh with_groups
+          hatch run style:pip freeze
+          hatch run types:pip freeze
+      - name: Check style
+        if: always()
+        run: |
+          hatch run style:fix
       - name: Check formatting
-        if: matrix.versions == null
+        if: always()
         run: |
-          git diff --exit-code
-{% endraw %}
+          git diff --color --exit-code
+      - name: Check types
+        if: always()
+        run: |
+          hatch run types:check

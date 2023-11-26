@@ -1,0 +1,39 @@
+site_name: "{{ project_name }}"
+{%- if project_description %}
+site_description: "{{ project_description }}"
+{%- endif %}
+site_url: "https://{{ repository_name.split("/")[0] }}.github.io/{{ repository_name.split("/")[1] }}"
+repo_url: "https://github.com/{{ repository_name }}"
+edit_uri: blob/master/docs/
+use_directory_urls: false
+
+theme:
+  name: material
+  features:
+    - content.action.edit
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    primary: teal
+    accent: purple
+
+markdown_extensions:
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.magiclink
+  - pymdownx.saneheaders
+  - pymdownx.superfences
+  - pymdownx.snippets:
+      check_paths: true
+      base_path:
+        - !relative $config_dir
+  - callouts
+  - admonition
+  - def_list
+  - toc:
+      permalink: "#"
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn

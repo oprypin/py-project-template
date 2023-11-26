@@ -4,38 +4,27 @@ project_description:
   type: str
 repository_name:
   type: str
-  default: "oprypin/{{ project_name |lower |replace('_', '-') |replace(' ', '-') }}"
+  default: "oprypin/{{ project_name.lower().replace('_', '-').replace(' ', '-') }}"
 python_distribution_name:
   type: str
-  default: "{{ project_name |lower |replace('_', '-') |replace(' ', '-') }}"
-python_import_name:
+  default: "{{ project_name.lower().replace('_', '-').replace(' ', '-') }}"
+python_source_path:
   type: str
-  default: "{{ project_name |lower |replace('-', '_') |replace(' ', '_') }}"
+  default: "{{ project_name.lower().replace('-', '_').replace(' ', '_') }}"
 copyright_date:
-  type: int
-  default: "{{ '%Y' |strftime }}"
-min_python_version:
   type: str
-  default: "3.6"
+  default: "{{ '%Y' |strftime }}"
 pytest:
   type: bool
   default: true
-pytype:
+script_test:
   type: bool
-  default: true
+  default: false
 mkdocs:
   type: bool
   default: true
+mkdocs_install_self:
+  type: bool
+  default: false
 
 _answers_file: .tools/copier-answers.yml
-_templates_suffix: .jinja
-
-_envops:
-  block_start_string: "{%"
-  block_end_string: "%}"
-  comment_start_string: "{#"
-  comment_end_string: "#}"
-  variable_start_string: "{{"
-  variable_end_string: "}}"
-  trim_blocks: true
-  keep_trailing_newline: true
