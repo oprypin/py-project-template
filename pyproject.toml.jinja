@@ -48,7 +48,7 @@ include = ["/{{ python_source_path.split('/')[0] }}"{% if pytest %}, "/tests"{% 
 [tool.hatch.env]
 requires = [
     "hatch-mkdocs",
-    "hatch-pip-compile",
+    "hatch-pip-compile >=1.7.0",
 ]
 {%- endif %}
 {%- if python_source_path != project_name.lower().replace('-', '_').replace(' ', '_') %}
@@ -76,10 +76,10 @@ dependencies = [
 [tool.hatch.envs.test.scripts]
 test = [
 {%- if pytest %}
-    "pytest -q",
+    "pytest -q {args}",
 {%- endif %}
 {%- if script_test %}
-    "bash .tools/test.sh",
+    "bash .tools/test.sh {args}",
 {%- endif %}
 ]
 {%- endif %}
@@ -90,28 +90,27 @@ dependencies = [
 ]
 [tool.hatch.envs.types.scripts]
 check = [
-    "mypy {{ python_source_path.split('/')[0] }}"
+    "mypy {args} {{ python_source_path.split('/')[0] }}"
 ]
 
 [tool.hatch.envs.style]
-skip-install = true
+detached = true
 dependencies = [
     "ruff",
 ]
 [tool.hatch.envs.style.scripts]
 fix = [
-    "ruff check --fix {{ python_source_path.split('/')[0] }}{% if pytest %} tests{% endif %}",
+    "ruff check --fix {args:--unsafe-fixes} {{ python_source_path.split('/')[0] }}{% if pytest %} tests{% endif %}",
     "format",
 ]
 format = [
-    "ruff format -q {{ python_source_path.split('/')[0] }}{% if pytest %} tests{% endif %}",
+    "ruff format -q {args} {{ python_source_path.split('/')[0] }}{% if pytest %} tests{% endif %}",
 ]
 {%- if mkdocs %}
 
 [tool.hatch.env.collectors.mkdocs.docs]
 [tool.hatch.envs.docs]
 type = "pip-compile"
-pip-compile-hashes = false
 {%- if mkdocs_install_self %}
 detached = false
 {%- endif %}
