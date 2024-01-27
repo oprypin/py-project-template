@@ -89,9 +89,7 @@ dependencies = [
     "mypy",
 ]
 [tool.hatch.envs.types.scripts]
-check = [
-    "mypy {args} {{ python_source_path.split('/')[0] }}"
-]
+check = "mypy {args} {{ python_source_path.split('/')[0] }}"
 
 [tool.hatch.envs.style]
 type = "pip-compile"
@@ -100,12 +98,11 @@ dependencies = [
     "ruff",
 ]
 [tool.hatch.envs.style.scripts]
+check = "ruff check {{ python_source_path.split('/')[0] }}{% if pytest %} tests{% endif %} {args}"
+format = "ruff format -q {{ python_source_path.split('/')[0] }}{% if pytest %} tests{% endif %}"
 fix = [
-    "ruff check --fix {args:--unsafe-fixes} {{ python_source_path.split('/')[0] }}{% if pytest %} tests{% endif %}",
+    "check --fix --unsafe-fixes",
     "format",
-]
-format = [
-    "ruff format -q {args} {{ python_source_path.split('/')[0] }}{% if pytest %} tests{% endif %}",
 ]
 {%- if mkdocs %}
 

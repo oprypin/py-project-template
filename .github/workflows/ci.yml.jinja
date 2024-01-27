@@ -70,11 +70,7 @@ jobs:
       - name: Check style
         if: always()
         run: |
-          hatch run style:fix
-      - name: Check formatting
-        if: always()
-        run: |
-          git diff --color --exit-code
+          hatch run style:check
       - name: Check types
         if: always()
         run: |
