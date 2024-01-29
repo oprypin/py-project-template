@@ -43,13 +43,15 @@ path = "{{ python_source_path }}/__init__.py"
 
 [tool.hatch.build.targets.sdist]
 include = ["/{{ python_source_path.split('/')[0] }}"{% if pytest %}, "/tests"{% endif %}]
-{%- if mkdocs %}
 
 [tool.hatch.env]
+{%- if mkdocs %}
 requires = [
     "hatch-mkdocs",
     "hatch-pip-compile >=1.7.0",
 ]
+{%- else %}
+requires = ["hatch-pip-compile >=1.7.0"]
 {%- endif %}
 {%- if python_source_path != project_name.lower().replace('-', '_').replace(' ', '_') %}
 
