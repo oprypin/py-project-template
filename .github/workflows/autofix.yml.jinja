@@ -11,7 +11,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.{{ python_minor_version - 1 }}'
       - name: Install Hatch
         run: |
           pip install hatch
