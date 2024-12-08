@@ -16,15 +16,15 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
+    # Begin Python versions
+    {%- for ver in range(python_minor_version - 4, python_minor_version + 1) %}
+    "Programming Language :: Python :: 3.{{ ver }}",
+    {%- endfor %}
+    # End Python versions
     "Typing :: Typed",
 ]
 dynamic = ["version"]
-requires-python = ">=3.9"
+requires-python = ">=3.{{ python_minor_version - 4 }}"
 dependencies = [
 ]
 

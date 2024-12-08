@@ -14,19 +14,19 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python: '^3.13'
+          - python: '^3.{{ python_minor_version }}'
             os: ubuntu-latest
-          - python: '3.13'
+          - python: '3.{{ python_minor_version }}'
             os: macos-latest
-          - python: '3.12'
+          - python: '3.{{ python_minor_version - 1 }}'
             os: windows-latest
-          - python: '3.11'
+          - python: '3.{{ python_minor_version - 2 }}'
             os: ubuntu-latest
-          - python: '3.10'
+          - python: '3.{{ python_minor_version - 3 }}'
             os: macos-latest
-          - python: '3.9'
+          - python: '3.{{ python_minor_version - 4 }}'
             os: windows-latest
-          - python: '3.9'
+          - python: '3.{{ python_minor_version - 4 }}'
             os: ubuntu-latest
             versions: minimal
     runs-on: {{ '${{matrix.os}}' }}
@@ -59,7 +59,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.{{ python_minor_version - 1}}'
       - name: Install Hatch
         run: |
           pip install hatch
