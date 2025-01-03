@@ -144,8 +144,10 @@ select = [
     "RUF001", "RUF002", "RUF003", "RUF005", "RUF006", "RUF007", "RUF008", "RUF009", "RUF010", "RUF012", "RUF013", "RUF015", "RUF016", "RUF017", "RUF018", "RUF019", "RUF020", "RUF021", "RUF022", "RUF023", "RUF024", "RUF026", "RUF028", "RUF029", "RUF030", "RUF031", "RUF032", "RUF033", "RUF034", "RUF035", "RUF036", "RUF038", "RUF039", "RUF040", "RUF041", "RUF046", "RUF048", "RUF052", "RUF055", "RUF100", "RUF101", "RUF200",
 ]
 ignore = ["E501", "E731"]
+{%- if pytest %}
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["PLC2701", "PLR6301"]
+{%- endif %}
 [tool.ruff.lint.flake8-comprehensions]
 allow-dict-calls-with-keyword-arguments = true
 [tool.ruff.lint.flake8-type-checking]
