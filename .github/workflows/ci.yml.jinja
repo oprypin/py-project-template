@@ -32,9 +32,9 @@ jobs:
     runs-on: {{ '${{matrix.os}}' }}
     steps:
       - name: Download source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: {{ '${{matrix.python}}' }}
       - name: Pin to lowest versions
@@ -55,9 +55,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.{{ python_minor_version - 1}}'
       - name: Install Hatch
