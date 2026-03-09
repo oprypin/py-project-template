@@ -29,7 +29,7 @@ mkdocs_install_self:
   when: "{{ mkdocs }}"
 python_minor_version:
   type: int
-  default: 13
+  default: 14
   when: false
 
 _answers_file: .tools/copier-answers.yml
