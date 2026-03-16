@@ -10,6 +10,7 @@ defaults:
 jobs:
 {%- if pytest or script_test %}
   test:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
       matrix:
@@ -52,6 +53,7 @@ jobs:
           hatch run test:test
 {%- endif %}
   style:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Download source
