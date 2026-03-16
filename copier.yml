@@ -20,13 +20,13 @@ pytest:
 script_test:
   type: bool
   default: false
-mkdocs:
+properdocs:
   type: bool
   default: true
-mkdocs_install_self:
+properdocs_install_self:
   type: bool
   default: false
-  when: "{{ mkdocs }}"
+  when: "{{ properdocs }}"
 python_minor_version:
   type: int
   default: 14

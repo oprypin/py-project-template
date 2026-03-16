@@ -29,7 +29,7 @@ dependencies = [
 ]
 
 [project.urls]
-{%- if mkdocs %}
+{%- if properdocs %}
 Documentation = "https://{{ repository_name.split("/")[0] }}.github.io/{{ repository_name.split("/")[1] }}/"
 {%- else %}
 Documentation = "https://github.com/{{ repository_name }}#readme"
@@ -45,9 +45,9 @@ path = "{{ python_source_path }}/__init__.py"
 include = ["/{{ python_source_path.split('/')[0] }}"{% if pytest %}, "/tests"{% endif %}]
 
 [tool.hatch.env]
-{%- if mkdocs %}
+{%- if properdocs %}
 requires = [
-    "hatch-mkdocs",
+    "hatch-properdocs",
     "hatch-pip-compile >=1.7.0",
 ]
 {%- else %}
@@ -106,12 +106,12 @@ fix = [
     "check --fix --unsafe-fixes",
     "format",
 ]
-{%- if mkdocs %}
+{%- if properdocs %}
 
-[tool.hatch.env.collectors.mkdocs.docs]
+[tool.hatch.env.collectors.properdocs.docs]
 [tool.hatch.envs.docs]
 type = "pip-compile"
-{%- if mkdocs_install_self %}
+{%- if properdocs_install_self %}
 detached = false
 {%- endif %}
 {%- endif %}
